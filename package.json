@@ -1,5 +1,5 @@
 {
-  "name": "saarthi-adaptive-workplace-assistant",
+  "name": "nexus-adaptive-workplace-assistant",
   "version": "1.0.0",
   "description": "Adaptive workplace assistant platform for people with disabilities",
   "type": "module",
@@ -15,13 +15,18 @@
     "multilingual",
     "inclusive"
   ],
-  "author": "Saarthi Team",
+  "author": "NEXUS Team",
   "license": "MIT",
   "dependencies": {
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.4.0",
+    "@react-three/postprocessing": "^3.0.4",
+    "framer-motion": "^10.18.0",
+    "lucide-react": "^0.294.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "lucide-react": "^0.294.0",
-    "framer-motion": "^10.16.4"
+    "three": "^0.180.0",
+    "three-stdlib": "^2.36.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",

@@ -1,4 +1,5 @@
-# Saarthi - Adaptive Workplace Assistant
+
+# NEXUS - Adaptive Workplace Assistant
 
 An innovative, Apple-inspired adaptive workplace assistant platform designed for people with disabilities. Built with React, featuring multilingual voice recognition, real-time translation, and comprehensive accessibility features.
 
@@ -63,7 +64,7 @@ npm run preview
 ## 📁 Project Structure
 
 ```
-saarthi-hackerthon/
+nexus-hackerthon/
 ├── src/
 │   ├── components/
 │   │   ├── Navbar.jsx              # Navigation bar with language selector
@@ -150,7 +151,7 @@ MIT License - See LICENSE file for details
 
 ## 📞 Support
 
-- Email: contact@saarthi.com
+- Email: workforrhody7@gmail.com
 - Phone: +91 123 456 7890
 - Location: Bangalore, India
 

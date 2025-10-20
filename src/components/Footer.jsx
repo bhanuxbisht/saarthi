@@ -61,7 +61,7 @@ const Footer = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
                 <Accessibility className="w-6 h-6 text-white" />
               </div>
-              <span className="text-2xl font-bold">Saarthi</span>
+              <span className="text-2xl font-bold">NEXUS</span>
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">
               Empowering inclusive workplaces through AI-powered accessibility
@@ -71,11 +71,11 @@ const Footer = () => {
             {/* Contact Info */}
             <div className="space-y-3">
               <a
-                href="mailto:contact@saarthi.com"
+                href="mailto:workforrhody7@gmail.com"
                 className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                <span className="text-sm">contact@saarthi.com</span>
+                <span className="text-sm">workforrhody7@gmail.com</span>
               </a>
               <a
                 href="tel:+911234567890"
@@ -136,7 +136,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             {/* Copyright */}
             <div className="flex items-center space-x-2 text-gray-400 text-sm">
-              <span>© 2025 Saarthi. Made with</span>
+              <span>© 2025 NEXUS. Made with</span>
               <Heart className="w-4 h-4 text-red-500 fill-red-500" />
               <span>for inclusive workplaces</span>
             </div>
