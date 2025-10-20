@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+  body {
+    @apply bg-white text-gray-900 antialiased;
+    font-feature-settings: "cv11", "ss01";
+    font-variation-settings: "opsz" 32;
+  }
+}
+
+@layer components {
+  .glass-effect {
+    @apply backdrop-blur-xl bg-white/80 border border-gray-200/50;
+  }
+  
+  .button-primary {
+    @apply px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-full font-medium
+           hover:from-blue-700 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl
+           transform hover:scale-105 active:scale-95;
+  }
+  
+  .button-secondary {
+    @apply px-6 py-3 bg-white text-blue-600 rounded-full font-medium border-2 border-blue-600
+           hover:bg-blue-50 transition-all duration-300;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-2xl hover:-translate-y-2;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Apple-like blur effect */
+.backdrop-blur-safari {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
