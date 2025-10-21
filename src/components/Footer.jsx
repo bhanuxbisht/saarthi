@@ -164,7 +164,7 @@ const Footer = () => {
             </div>
             <div className="px-4 py-2 bg-gray-800 rounded-lg text-xs text-gray-400 flex items-center space-x-2">
               <Github className="w-4 h-4 text-purple-500" />
-              <span>100% Open Source</span>
+              <span>MIT Licensed</span>
             </div>
             <div className="px-4 py-2 bg-gray-800 rounded-lg text-xs text-gray-400 flex items-center space-x-2">
               <Globe className="w-4 h-4 text-blue-500" />

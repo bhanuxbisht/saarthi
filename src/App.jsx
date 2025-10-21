@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import VoiceAssistant from './components/VoiceAssistant';
 import AccessibilityPanel from './components/AccessibilityPanel';
+import AccessibilitySettingsPanel from './components/AccessibilitySettingsPanel';
 import JobMatching from './components/JobMatching';
 import Integration from './components/Integration';
 import Footer from './components/Footer';
@@ -16,6 +17,21 @@ function App() {
   const { settings, updateSettings, completeOnboarding, isLoaded } = useAccessibility();
   const [showAccessibilityPanel, setShowAccessibilityPanel] = useState(false);
   const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
+  const jobMatchingRef = useRef(null);
+
+  // Handler for Get Started button - opens profile form
+  const handleGetStarted = () => {
+    if (jobMatchingRef.current) {
+      jobMatchingRef.current.openProfileForm();
+      // Scroll to jobs section
+      setTimeout(() => {
+        const jobsSection = document.getElementById('jobs');
+        if (jobsSection) {
+          jobsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  };
 
   // Handle keyboard shortcuts
   useEffect(() => {
@@ -101,12 +117,12 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <Navbar />
+      <Navbar onGetStartedClick={handleGetStarted} />
       <Hero />
       <Features />
       <VoiceAssistant accessibilitySettings={settings} />
       <AccessibilityPanel settings={settings} setSettings={updateSettings} />
-      <JobMatching />
+      <JobMatching ref={jobMatchingRef} />
       <Integration />
       <Footer />
 
@@ -131,6 +147,13 @@ function App() {
       </button>
 
       {/* Modals */}
+      <AccessibilitySettingsPanel
+        isOpen={showAccessibilityPanel}
+        onClose={() => setShowAccessibilityPanel(false)}
+        settings={settings}
+        updateSettings={updateSettings}
+      />
+      
       <KeyboardShortcutsOverlay
         isOpen={showKeyboardShortcuts}
         onClose={() => setShowKeyboardShortcuts(false)}

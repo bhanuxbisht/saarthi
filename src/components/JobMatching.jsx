@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Briefcase,
@@ -21,7 +21,7 @@ import { useUserProfile } from '../hooks/useUserProfile';
 import { jobsData } from '../data/jobsData';
 import UserProfileForm from './UserProfileForm';
 
-const JobMatching = () => {
+const JobMatching = forwardRef((props, ref) => {
   const { profile, isProfileComplete } = useUserProfile();
   const {
     matchedJobs,
@@ -39,6 +39,13 @@ const JobMatching = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMatching, setIsMatching] = useState(false);
   const [displayJobs, setDisplayJobs] = useState([]);
+
+  // Expose method to open profile form from parent
+  useImperativeHandle(ref, () => ({
+    openProfileForm: () => {
+      setShowProfileForm(true);
+    }
+  }));
 
   // Handle AI Job Matching
   const handleAIMatch = async () => {
@@ -581,6 +588,8 @@ const JobMatching = () => {
       </div>
     </section>
   );
-};
+});
+
+JobMatching.displayName = 'JobMatching';
 
 export default JobMatching;

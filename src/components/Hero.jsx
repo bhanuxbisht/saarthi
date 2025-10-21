@@ -2,7 +2,13 @@ import React from 'react';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const Hero = () => {
+const Hero = ({ onStartFreeTrialClick, onWatchDemoClick }) => {
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Animated Background */}
@@ -61,6 +67,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <motion.button 
+              onClick={() => scrollToSection('jobs')}
               className="button-primary flex items-center space-x-2 group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -69,6 +76,7 @@ const Hero = () => {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </motion.button>
             <motion.button 
+              onClick={() => scrollToSection('voice')}
               className="button-secondary"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -88,7 +96,7 @@ const Hero = () => {
               { number: '50+', label: 'Languages Supported' },
               { number: '99.9%', label: 'Recognition Accuracy' },
               { number: '24/7', label: 'Availability' },
-              { number: '100%', label: 'Open Source' },
+              { number: '100%', label: 'Privacy Protected' },
             ].map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">

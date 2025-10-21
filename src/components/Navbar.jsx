@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Accessibility, Globe } from 'lucide-react';
+import { Menu, X, Accessibility } from 'lucide-react';
+import LanguageSelector from './LanguageSelector';
 
-const Navbar = () => {
+const Navbar = ({ onGetStartedClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -56,11 +57,11 @@ const Navbar = () => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <button className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:text-blue-600 transition-colors">
-              <Globe className="w-4 h-4" />
-              <span>English</span>
-            </button>
-            <button className="button-primary">
+            <LanguageSelector />
+            <button 
+              onClick={onGetStartedClick}
+              className="button-primary"
+            >
               Get Started
             </button>
           </div>
@@ -92,9 +93,18 @@ const Navbar = () => {
                   {item.name}
                 </a>
               ))}
-              <button className="button-primary w-full mt-4">
-                Get Started
-              </button>
+              <div className="mt-4 space-y-2">
+                <LanguageSelector />
+                <button 
+                  onClick={() => {
+                    onGetStartedClick();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="button-primary w-full"
+                >
+                  Get Started
+                </button>
+              </div>
             </div>
           </div>
         )}
