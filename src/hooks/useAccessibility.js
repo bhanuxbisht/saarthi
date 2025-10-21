@@ -25,7 +25,6 @@ export const useAccessibility = () => {
         const parsed = JSON.parse(savedSettings);
         setSettings({ ...defaultSettings, ...parsed });
       } catch (error) {
-        console.error('Failed to parse saved settings:', error);
       }
     }
     setIsLoaded(true);

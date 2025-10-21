@@ -61,9 +61,7 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
   useEffect(() => {
     const loadVoices = () => {
       const voices = synthRef.current.getVoices();
-      console.log('Available voices loaded:', voices.length);
       if (voices.length > 0) {
-        console.log('Sample voices:', voices.slice(0, 5).map(v => `${v.name} (${v.lang})`));
       }
     };
 
@@ -110,7 +108,6 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
           finalText += text + ' ';
           const conf = Math.round(result[0].confidence * 100);
           setConfidence(conf);
-          console.log('Final text:', text, 'Confidence:', conf);
         } else {
           interim += text;
         }
@@ -123,7 +120,6 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
       if (finalText.trim()) {
         setTranscript(prev => {
           const newTranscript = (prev + ' ' + finalText).trim();
-          console.log('Complete transcript:', newTranscript);
           // Translate after state updates
           setTimeout(() => translateText(newTranscript), 100);
           return newTranscript;
@@ -132,7 +128,6 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
     };
 
     recognition.onerror = (event) => {
-      console.error('Speech recognition error:', event.error);
       const errors = {
         'not-allowed': 'Microphone access denied. Please allow permissions in browser settings.',
         'no-speech': 'No speech detected. Please speak clearly.',
@@ -147,19 +142,16 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
     };
 
     recognition.onstart = () => {
-      console.log('Speech recognition started');
       setError('');
     };
 
     recognition.onend = () => {
-      console.log('Speech recognition ended, isListening:', isListening);
       if (isListening) {
         // Restart if still listening
         setTimeout(() => {
           try {
             recognition.start();
           } catch (e) {
-            console.error('Failed to restart:', e);
           }
         }, 100);
       }
@@ -172,7 +164,6 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
         try {
           recognitionRef.current.stop();
         } catch (e) {
-          console.error('Cleanup error:', e);
         }
       }
     };
@@ -181,14 +172,10 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
   // Translate using free API with better error handling
   const translateText = async (text) => {
     if (!text || !text.trim()) {
-      console.log('No text to translate');
       return;
     }
 
     const textToTranslate = text.trim();
-    console.log('=== TRANSLATION REQUEST ===');
-    console.log('Text to translate:', textToTranslate);
-    console.log('From:', selectedLanguage, 'To:', targetLanguage);
 
     setIsTranslating(true);
     setError(''); // Clear previous errors
@@ -197,12 +184,8 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
       const sourceLang = selectedLanguage.split('-')[0];
       const targetLang = targetLanguage.split('-')[0];
 
-      console.log('Source language:', sourceLang);
-      console.log('Target language:', targetLang);
-
       // If same language, no need to translate
       if (sourceLang === targetLang) {
-        console.log('Same language - skipping translation');
         setTranslation(textToTranslate);
         setIsTranslating(false);
         return;
@@ -210,7 +193,6 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
 
       // Build API URL
       const apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(textToTranslate)}&langpair=${sourceLang}|${targetLang}`;
-      console.log('API URL:', apiUrl);
 
       const response = await fetch(apiUrl);
       
@@ -219,51 +201,39 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
       }
 
       const data = await response.json();
-      console.log('=== TRANSLATION RESPONSE ===');
-      console.log('Full response:', data);
 
       if (data.responseData && data.responseData.translatedText) {
         const translatedText = data.responseData.translatedText;
-        console.log('Translated text:', translatedText);
-        console.log('Match:', data.responseData.match);
         
         setTranslation(translatedText);
         
         // Show warning if low quality translation
         if (data.responseData.match && data.responseData.match < 0.5) {
-          console.warn('Low quality translation detected');
         }
       } else {
-        console.error('Invalid response structure:', data);
         throw new Error('Invalid translation response');
       }
     } catch (err) {
-      console.error('=== TRANSLATION ERROR ===');
-      console.error('Error:', err);
       setError(`Translation failed: ${err.message}`);
       setTranslation('❌ Translation unavailable');
     } finally {
       setIsTranslating(false);
-      console.log('=== TRANSLATION COMPLETE ===\n');
     }
   };
 
   const handleVoiceInput = () => {
     if (isListening) {
       // Stop listening
-      console.log('Stopping voice recognition');
       if (recognitionRef.current) {
         try {
           recognitionRef.current.stop();
         } catch (e) {
-          console.error('Error stopping recognition:', e);
         }
       }
       setIsListening(false);
       setInterimTranscript('');
     } else {
       // Start listening
-      console.log('Starting voice recognition');
       setError('');
       setIsListening(true);
       
@@ -271,7 +241,6 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
         try {
           recognitionRef.current.start();
         } catch (err) {
-          console.error('Error starting recognition:', err);
           setError('Failed to start voice recognition. Please refresh the page.');
           setIsListening(false);
         }
@@ -282,12 +251,8 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
   const handleTextToSpeech = () => {
     const textToSpeak = translation || transcript;
     if (!textToSpeak || !textToSpeak.trim()) {
-      console.log('No text to speak');
       return;
     }
-
-    console.log('Speaking:', textToSpeak);
-    console.log('Language for speech:', translation ? targetLanguage : selectedLanguage);
     
     // Cancel any ongoing speech
     synthRef.current.cancel();
@@ -307,7 +272,6 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
         
         // Get available voices and try to find a matching one
         const voices = synthRef.current.getVoices();
-        console.log(`Looking for voice for language: ${speechLang} (${langCode})`);
         
         // Try multiple matching strategies
         let matchingVoice = null;
@@ -329,7 +293,6 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
           // (since many can handle Devanagari script)
           const indianLangCodes = ['hi', 'mr', 'bn', 'te', 'ta', 'gu', 'kn', 'ml', 'pa'];
           if (indianLangCodes.includes(langCode)) {
-            console.log('Trying fallback to Hindi voice for Devanagari script...');
             matchingVoice = voices.find(voice => 
               voice.lang.toLowerCase().startsWith('hi')
             );
@@ -346,10 +309,7 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
         
         if (matchingVoice) {
           utterance.voice = matchingVoice;
-          console.log('✅ Using voice:', matchingVoice.name, '|', matchingVoice.lang);
         } else {
-          console.warn('⚠️ No matching voice found for', speechLang);
-          console.log('Available voices:', voices.map(v => `${v.name} (${v.lang})`).join(', '));
           
           // Use default voice but warn user
           setError(`Note: No ${languages.find(l => l.code === speechLang)?.name} voice found. Using default voice. Speech may not be accurate.`);
@@ -357,18 +317,14 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
         }
         
         utterance.onstart = () => {
-          console.log('Speech started successfully');
           setIsSpeaking(true);
         };
         
         utterance.onend = () => {
-          console.log('Speech ended successfully');
           setIsSpeaking(false);
         };
         
         utterance.onerror = (event) => {
-          console.error('Speech synthesis error:', event.error);
-          console.error('Error details:', event);
           setIsSpeaking(false);
           
           // Provide specific error messages
@@ -387,12 +343,9 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
           // Auto-dismiss error after 6 seconds
           setTimeout(() => setError(''), 6000);
         };
-        
-        console.log('Starting speech synthesis...');
         synthRef.current.speak(utterance);
         
       } catch (err) {
-        console.error('Exception during speech:', err);
         setIsSpeaking(false);
         setError('Speech initialization failed. Please try again.');
         setTimeout(() => setError(''), 5000);
@@ -401,7 +354,6 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
   };
 
   const stopSpeech = () => {
-    console.log('Stopping speech');
     synthRef.current.cancel();
     setIsSpeaking(false);
   };
@@ -410,17 +362,14 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
     if (!text || !text.trim()) return;
     
     navigator.clipboard.writeText(text.trim()).then(() => {
-      console.log('Copied to clipboard:', text);
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
     }).catch(err => {
-      console.error('Copy failed:', err);
       setError('Failed to copy to clipboard');
     });
   };
 
   const clearAll = () => {
-    console.log('Clearing all data');
     setTranscript('');
     setInterimTranscript('');
     setTranslation('');
@@ -431,8 +380,6 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
 
   const downloadTranscript = () => {
     if (!transcript) return;
-    
-    console.log('Downloading transcript');
     const timestamp = new Date().toLocaleString();
     const content = `NEXUS Voice Assistant Transcript
 Generated: ${timestamp}
@@ -456,8 +403,6 @@ ${translation || 'N/A'}
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    
-    console.log('Transcript downloaded');
   };
 
   return (

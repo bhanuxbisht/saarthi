@@ -46,7 +46,6 @@ const LanguageSelector = () => {
     setIsOpen(false);
     // You can add localStorage to persist language selection
     localStorage.setItem('selectedLanguage', JSON.stringify(language));
-    console.log('Language changed to:', language.name);
   };
 
   return (

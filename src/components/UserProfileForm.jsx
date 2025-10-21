@@ -61,20 +61,15 @@ const UserProfileForm = ({ onProfileComplete }) => {
     const skill = typeof skillToAdd === 'string' ? skillToAdd : currentSkill;
     
     if (!skill.trim()) {
-      console.log('⚠️ Empty skill, not adding');
       return;
     }
-    
-    console.log('➕ Adding skill:', skill.trim());
     const success = addSkill(skill.trim());
     
     if (success) {
-      console.log('✅ Skill added successfully');
       setCurrentSkill('');
       setShowSuggestions(false);
       setErrors({ ...errors, skills: undefined });
     } else {
-      console.log('⚠️ Skill already exists or failed to add');
     }
   };
 

@@ -49,23 +49,18 @@ const JobMatching = forwardRef((props, ref) => {
 
   // Handle AI Job Matching
   const handleAIMatch = async () => {
-    console.log('🔍 handleAIMatch called', { isComplete: isProfileComplete(), profile });
     
     if (!isProfileComplete()) {
-      console.log('📋 No profile, showing sample jobs');
       setDisplayJobs(jobsData.slice(0, 6));
       return;
     }
     
     setIsMatching(true);
-    console.log('🤖 Starting AI matching...');
     try {
       const matches = await matchJobs(profile, jobsData);
       const topMatches = getTopMatches(matches, 10);
-      console.log('✅ Matching complete', { matchCount: topMatches.length });
       setDisplayJobs(topMatches);
     } catch (err) {
-      console.error('❌ Matching error:', err);
       setDisplayJobs(jobsData.slice(0, 6));
     } finally {
       setIsMatching(false);
@@ -224,7 +219,6 @@ const JobMatching = forwardRef((props, ref) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => {
-                console.log('🎯 Create Profile button clicked!');
                 setShowProfileForm(true);
               }}
               className="px-8 py-4 bg-white text-purple-600 rounded-xl font-bold text-lg hover:bg-gray-100 transition-colors"

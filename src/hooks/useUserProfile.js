@@ -42,12 +42,9 @@ export const useUserProfile = () => {
       if (savedProfile) {
         const parsed = JSON.parse(savedProfile);
         setProfile({ ...defaultProfile, ...parsed });
-        console.log('✅ Profile loaded from localStorage');
       } else {
-        console.log('📝 No saved profile found');
       }
     } catch (error) {
-      console.error('❌ Failed to load profile:', error);
     } finally {
       setIsLoaded(true);
     }
@@ -60,10 +57,8 @@ export const useUserProfile = () => {
     if (isLoaded && hasChanges) {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
-        console.log('💾 Profile saved to localStorage');
         setHasChanges(false);
       } catch (error) {
-        console.error('❌ Failed to save profile:', error);
       }
     }
   }, [profile, isLoaded, hasChanges]);
@@ -78,7 +73,6 @@ export const useUserProfile = () => {
       profileCreated: true,
     }));
     setHasChanges(true);
-    console.log('📝 Profile updated');
   }, []);
 
   /**
@@ -90,7 +84,6 @@ export const useUserProfile = () => {
       [field]: value,
     }));
     setHasChanges(true);
-    console.log(`📝 Field updated: ${field}`);
   }, []);
 
   /**
@@ -102,7 +95,6 @@ export const useUserProfile = () => {
     setProfile(prev => {
       // Avoid duplicates
       if (prev.skills.includes(skill)) {
-        console.warn(`⚠️ Skill already exists: ${skill}`);
         return prev;
       }
 
@@ -112,7 +104,6 @@ export const useUserProfile = () => {
       };
     });
     setHasChanges(true);
-    console.log(`➕ Skill added: ${skill}`);
   }, []);
 
   /**
@@ -124,7 +115,6 @@ export const useUserProfile = () => {
       skills: prev.skills.filter(s => s !== skill),
     }));
     setHasChanges(true);
-    console.log(`➖ Skill removed: ${skill}`);
   }, []);
 
   /**
@@ -141,7 +131,6 @@ export const useUserProfile = () => {
       };
     });
     setHasChanges(true);
-    console.log(`🔄 Accessibility toggled: ${need}`);
   }, []);
 
   /**
@@ -151,7 +140,6 @@ export const useUserProfile = () => {
     setProfile(defaultProfile);
     localStorage.removeItem(STORAGE_KEY);
     setHasChanges(false);
-    console.log('🗑️ Profile reset');
   }, []);
 
   /**
@@ -237,7 +225,6 @@ export const useUserProfile = () => {
     link.download = 'nexus-profile.json';
     link.click();
     URL.revokeObjectURL(url);
-    console.log('📥 Profile exported');
   }, [profile]);
 
   /**
@@ -251,10 +238,8 @@ export const useUserProfile = () => {
 
       setProfile({ ...defaultProfile, ...imported });
       setHasChanges(true);
-      console.log('📤 Profile imported');
       return { success: true };
     } catch (error) {
-      console.error('❌ Failed to import profile:', error);
       return { success: false, error: error.message };
     }
   }, []);

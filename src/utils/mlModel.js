@@ -31,19 +31,13 @@ let modelLoadingPromise = null;
 export const loadModel = async () => {
   // Return cached model if already loaded
   if (modelCache) {
-    console.log('✅ Using cached Universal Sentence Encoder model');
     return modelCache;
   }
 
   // Return existing loading promise to avoid multiple loads
   if (modelLoadingPromise) {
-    console.log('⏳ Model loading already in progress...');
     return modelLoadingPromise;
   }
-
-  console.log('🚀 Loading Universal Sentence Encoder model...');
-  console.log('📦 Model size: ~50MB (first load only)');
-  console.log('⚡ Expected load time: 2-5 seconds');
 
   const startTime = performance.now();
 
@@ -53,15 +47,10 @@ export const loadModel = async () => {
     modelCache = await modelLoadingPromise;
 
     const loadTime = ((performance.now() - startTime) / 1000).toFixed(2);
-    console.log(`✅ Model loaded successfully in ${loadTime}s`);
-    console.log('🧠 Model type: Universal Sentence Encoder');
-    console.log('📊 Embedding dimensions: 512');
-    console.log('🌍 Language support: Multilingual (100+ languages)');
 
     modelLoadingPromise = null;
     return modelCache;
   } catch (error) {
-    console.error('❌ Failed to load model:', error);
     modelLoadingPromise = null;
     throw new Error(`Model loading failed: ${error.message}`);
   }
@@ -76,7 +65,6 @@ export const loadModel = async () => {
  */
 export const getEmbedding = async (text) => {
   if (!text || typeof text !== 'string' || text.trim().length === 0) {
-    console.warn('⚠️ Empty or invalid text provided for embedding');
     return new Array(512).fill(0); // Return zero vector
   }
 
@@ -93,14 +81,9 @@ export const getEmbedding = async (text) => {
     embeddings.dispose();
 
     const processingTime = (performance.now() - startTime).toFixed(2);
-    console.log(`✅ Generated embedding in ${processingTime}ms`);
-    console.log(`📝 Text length: ${text.length} characters`);
-    console.log(`📊 Embedding shape: [1, 512]`);
 
     return embeddingArray[0]; // Return first (and only) embedding
   } catch (error) {
-    console.error('❌ Embedding generation failed:', error);
-    console.error('📝 Failed text:', text.substring(0, 100) + '...');
     throw new Error(`Embedding generation failed: ${error.message}`);
   }
 };
@@ -117,12 +100,10 @@ export const getEmbedding = async (text) => {
  */
 export const calculateSimilarity = (embedding1, embedding2) => {
   if (!embedding1 || !embedding2) {
-    console.warn('⚠️ Invalid embeddings provided for similarity calculation');
     return 0;
   }
 
   if (embedding1.length !== embedding2.length) {
-    console.error('❌ Embedding dimensions do not match');
     return 0;
   }
 
@@ -152,11 +133,8 @@ export const calculateSimilarity = (embedding1, embedding2) => {
 
     // Clamp to [-1, 1] range (handle floating point errors)
     const clampedSimilarity = Math.max(-1, Math.min(1, similarity));
-
-    console.log(`🎯 Cosine similarity: ${clampedSimilarity.toFixed(4)}`);
     return clampedSimilarity;
   } catch (error) {
-    console.error('❌ Similarity calculation failed:', error);
     return 0;
   }
 };
@@ -183,9 +161,6 @@ export const similarityToPercentage = (similarity) => {
  * @returns {Promise<Object>} Match result with score and breakdown
  */
 export const matchJobToProfile = async (userProfile, job) => {
-  console.log('🔍 Matching profile to job...');
-  console.log(`👤 Profile: ${userProfile.skills?.slice(0, 3).join(', ')}...`);
-  console.log(`💼 Job: ${job.title} at ${job.company}`);
 
   const startTime = performance.now();
 
@@ -206,7 +181,6 @@ export const matchJobToProfile = async (userProfile, job) => {
     ].filter(Boolean).join('. ');
 
     if (!profileText || !jobText) {
-      console.warn('⚠️ Insufficient data for matching');
       return {
         matchScore: 50,
         semanticScore: 50,
@@ -220,7 +194,6 @@ export const matchJobToProfile = async (userProfile, job) => {
     }
 
     // Generate embeddings
-    console.log('🧠 Generating embeddings...');
     const [profileEmbedding, jobEmbedding] = await Promise.all([
       getEmbedding(profileText),
       getEmbedding(jobText),
@@ -229,7 +202,6 @@ export const matchJobToProfile = async (userProfile, job) => {
     // Calculate semantic similarity (70% weight)
     const similarity = calculateSimilarity(profileEmbedding, jobEmbedding);
     const semanticScore = similarityToPercentage(similarity);
-    console.log(`📊 Semantic match: ${semanticScore}%`);
 
     // Calculate skill overlap (20% weight)
     const userSkills = (userProfile.skills || []).map(s => s.toLowerCase());
@@ -242,7 +214,6 @@ export const matchJobToProfile = async (userProfile, job) => {
     const skillScore = jobSkills.length > 0 
       ? Math.round((matchingSkills.length / jobSkills.length) * 100)
       : 50;
-    console.log(`🎯 Skill overlap: ${skillScore}% (${matchingSkills.length}/${jobSkills.length})`);
 
     // Calculate accessibility fit (10% weight)
     const userAccessibility = userProfile.accessibility || [];
@@ -255,7 +226,6 @@ export const matchJobToProfile = async (userProfile, job) => {
     const accessibilityScore = userAccessibility.length > 0
       ? Math.round((matchingAccessibility.length / userAccessibility.length) * 100)
       : 100; // Full score if no specific needs
-    console.log(`♿ Accessibility fit: ${accessibilityScore}%`);
 
     // Calculate weighted final score
     const finalScore = Math.round(
@@ -265,7 +235,6 @@ export const matchJobToProfile = async (userProfile, job) => {
     );
 
     const processingTime = Math.round(performance.now() - startTime);
-    console.log(`✅ Match complete: ${finalScore}% in ${processingTime}ms`);
 
     return {
       matchScore: finalScore,
@@ -280,7 +249,6 @@ export const matchJobToProfile = async (userProfile, job) => {
       processingTime,
     };
   } catch (error) {
-    console.error('❌ Job matching failed:', error);
     return {
       matchScore: 50,
       semanticScore: 50,
@@ -304,7 +272,6 @@ export const matchJobToProfile = async (userProfile, job) => {
  * @returns {Promise<Array<Object>>} Array of jobs with match scores
  */
 export const matchJobsToProfile = async (userProfile, jobs) => {
-  console.log(`🚀 Batch matching ${jobs.length} jobs...`);
   const startTime = performance.now();
 
   try {
@@ -324,11 +291,9 @@ export const matchJobsToProfile = async (userProfile, jobs) => {
 
     const totalTime = Math.round(performance.now() - startTime);
     const avgTime = Math.round(totalTime / jobs.length);
-    console.log(`✅ Batch matching complete in ${totalTime}ms (${avgTime}ms avg per job)`);
 
     return matchedJobs;
   } catch (error) {
-    console.error('❌ Batch matching failed:', error);
     // Return jobs with default 50% score
     return jobs.map(job => ({
       ...job,
@@ -362,12 +327,9 @@ export const getModelInfo = () => {
  * Call this on app startup or when user navigates to jobs page
  */
 export const preloadModel = async () => {
-  console.log('🔄 Preloading ML model...');
   try {
     await loadModel();
-    console.log('✅ Model preloaded and ready');
   } catch (error) {
-    console.error('⚠️ Model preload failed:', error);
   }
 };
 

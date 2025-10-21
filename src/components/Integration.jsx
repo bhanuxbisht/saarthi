@@ -26,7 +26,6 @@ const Integration = () => {
       try {
         setConnectedApps(JSON.parse(saved));
       } catch (e) {
-        console.error('Error loading connected apps:', e);
       }
     }
   }, []);
@@ -151,7 +150,6 @@ const Integration = () => {
       const updated = [...connectedApps, selectedIntegration.name];
       setConnectedApps(updated);
       localStorage.setItem('connectedApps', JSON.stringify(updated));
-      console.log(`✅ Connected to ${selectedIntegration.name}`);
     }
     setShowModal(false);
   };
@@ -161,7 +159,6 @@ const Integration = () => {
     if (integrationSection) {
       integrationSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    console.log('📋 Viewing all integrations');
   };
 
   return (

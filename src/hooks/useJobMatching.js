@@ -37,12 +37,9 @@ export const useJobMatching = () => {
   useEffect(() => {
     const initModel = async () => {
       try {
-        console.log('🚀 Initializing ML model...');
         await preloadModel();
         setIsModelLoaded(true);
-        console.log('✅ ML model ready');
       } catch (err) {
-        console.error('❌ Model initialization failed:', err);
         setError('Failed to load AI model');
         setIsModelLoaded(false);
       }
@@ -72,14 +69,12 @@ export const useJobMatching = () => {
   const matchJobs = useCallback(async (profile, jobs = jobsData) => {
     // Validate profile
     if (!profile || (!profile.skills?.length && !profile.bio)) {
-      console.warn('⚠️ No profile data for matching');
       setMatchedJobs(jobs.map(job => ({ ...job, matchScore: 50 })));
       return;
     }
 
     // Check cache
     if (!hasProfileChanged(profile) && cacheRef.current.has('matchedJobs')) {
-      console.log('📦 Using cached match results');
       setMatchedJobs(cacheRef.current.get('matchedJobs'));
       return;
     }
@@ -90,9 +85,6 @@ export const useJobMatching = () => {
     const startTime = performance.now();
 
     try {
-      console.log('🧠 Starting AI job matching...');
-      console.log(`👤 Profile: ${profile.skills?.slice(0, 3).join(', ')}...`);
-      console.log(`💼 Jobs to match: ${jobs.length}`);
 
       // Perform ML matching
       const matched = await matchJobsToProfile(profile, jobs);
@@ -116,12 +108,7 @@ export const useJobMatching = () => {
       cacheRef.current.set('matchedJobs', matched);
       lastProfileRef.current = profile;
 
-      console.log(`✅ Matching complete: ${goodMatches} strong matches found`);
-      console.log(`📊 Average score: ${avgScore}%`);
-      console.log(`⚡ Total time: ${totalProcessingTime}ms`);
-
     } catch (err) {
-      console.error('❌ Job matching failed:', err);
       setError(err.message || 'Job matching failed');
       // Fallback to unscored jobs
       setMatchedJobs(jobs.map(job => ({ ...job, matchScore: 50 })));
@@ -220,7 +207,6 @@ export const useJobMatching = () => {
   const clearCache = useCallback(() => {
     cacheRef.current.clear();
     lastProfileRef.current = null;
-    console.log('🗑️ Match cache cleared');
   }, []);
 
   /**
