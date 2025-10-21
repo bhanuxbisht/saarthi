@@ -23,8 +23,9 @@ const VoiceAssistant = ({ accessibilitySettings }) => {
   const [transcript, setTranscript] = useState('');
   const [interimTranscript, setInterimTranscript] = useState('');
   const [translation, setTranslation] = useState('');
-  const [selectedLanguage, setSelectedLanguage] = useState('en-US');
-  const [targetLanguage, setTargetLanguage] = useState('hi-IN');
+  // Default: Hindi input → English output (more common use case in India)
+  const [selectedLanguage, setSelectedLanguage] = useState('hi-IN');
+  const [targetLanguage, setTargetLanguage] = useState('en-US');
   const [error, setError] = useState('');
   const [isTranslating, setIsTranslating] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
