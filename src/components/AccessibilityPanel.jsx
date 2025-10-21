@@ -18,7 +18,8 @@ const AccessibilityPanel = ({ settings, setSettings }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const updateSetting = (key, value) => {
-    setSettings({ ...settings, [key]: value });
+    // Call the parent's setSettings to update global accessibility settings
+    setSettings({ [key]: value });
   };
 
   const accessibilityProfiles = [
@@ -101,7 +102,7 @@ const AccessibilityPanel = ({ settings, setSettings }) => {
           {accessibilityProfiles.map((profile, index) => (
             <div
               key={index}
-              onClick={() => setSettings({ ...settings, ...profile.preset })}
+              onClick={() => setSettings(profile.preset)}
               className="group cursor-pointer bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100"
             >
               <div

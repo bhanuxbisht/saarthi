@@ -36,22 +36,33 @@
 
 /* Accessibility Features */
 
-/* High Contrast Mode */
+/* High Contrast Mode - Demo-Friendly Version */
 .high-contrast {
-  --bg-primary: #000000;
-  --bg-secondary: #ffffff;
-  --text-primary: #ffffff;
-  --text-secondary: #000000;
-  --border-color: #ffffff;
-}
-
-.high-contrast * {
-  border-color: var(--border-color) !important;
+  /* Enhanced contrast but keeps design intact */
+  filter: contrast(1.5) brightness(1.1);
 }
 
 .high-contrast body {
-  background: var(--bg-primary) !important;
-  color: var(--text-primary) !important;
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%) !important;
+}
+
+.high-contrast .bg-white,
+.high-contrast .bg-gray-50 {
+  background: #f5f5f5 !important;
+  border: 2px solid #333 !important;
+}
+
+.high-contrast * {
+  /* Boost text contrast without destroying colors */
+  text-shadow: 0 0 1px rgba(0,0,0,0.8);
+}
+
+.high-contrast button,
+.high-contrast a {
+  /* Make interactive elements stand out */
+  border: 2px solid currentColor !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3) !important;
 }
 
 /* Dark Mode */
