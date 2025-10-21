@@ -6,6 +6,32 @@
 
 ---
 
+## ⚠️ **CRITICAL: AI/ML Implementation Plan**
+
+### **Phase-by-Phase Strategy:**
+- ✅ **Phase 1 (Voice Assistant):** COMPLETE - 100% REAL AI/ML
+  - Web Speech API (REAL)
+  - Translation API (REAL)
+  - Text-to-Speech (REAL)
+  
+- � **Phase 2 (Accessibility):** NEXT - No AI needed
+  - Font controls, high contrast, color blind modes
+  - Keyboard navigation, screen reader support
+  - Pure UI/UX features
+  
+- 🤖 **Phase 3 (Job Matching):** WILL IMPLEMENT REAL ML HERE
+  - **Install TensorFlow.js** - Universal Sentence Encoder
+  - **Real semantic similarity** - Calculate actual match scores
+  - **No fake scores** - All calculations will be real AI
+  - **Client-side ML** - Runs in browser, no backend needed
+  
+- 📊 **Phase 4 (Integration):** Analytics & dashboard
+  - Mock data OK for demo
+
+**Bottom Line:** Voice = REAL AI ✅ | Accessibility = No AI needed ✅ | Jobs = ADD REAL AI when building ✅
+
+---
+
 ## ✅ **PHASE 1: VOICE ASSISTANT (COMPLETED)** 
 
 ### What's Done:
@@ -80,18 +106,27 @@
   - Location (or Remote)
   - Industry
 
-#### 2. **AI-Powered Matching** (1-2 hours)
-Choose ONE approach:
+#### 2. **Job Matching Algorithm** (1-2 hours)
 
-**Option A: Use Free AI API (Recommended)**
-- [ ] Integrate HuggingFace Inference API (free)
-- [ ] Use text-similarity model to match user profile with job descriptions
-- [ ] Score jobs by compatibility (0-100%)
-
-**Option B: Simple Algorithm (Faster)**
+**Current Phase Approach: Simple Algorithm (Fast & Works)**
 - [ ] Keyword matching between user skills and job requirements
 - [ ] Score based on matched keywords + accessibility requirements
 - [ ] Weight by experience level match
+- [ ] Generate match scores (e.g., 95%, 88%, 75%)
+- ✅ **Sufficient for MVP/Demo**
+- ✅ **Easy to understand and explain**
+
+**Future Backend Phase: Real ML Model**
+- ⏳ Replace with TensorFlow/PyTorch backend
+- ⏳ Use BERT or similar for semantic matching
+- ⏳ Connect to real job APIs (LinkedIn, Indeed, Glassdoor)
+- ⏳ Real-time score calculation
+
+**Why This Works:**
+- UI/UX stays the same
+- Demo shows complete workflow
+- Easy to swap algorithm later
+- No wasted frontend effort
 
 #### 3. **User Profile** (1 hour)
 - [ ] Form to collect:
@@ -205,8 +240,18 @@ Choose ONE approach:
 ### Core Features
 - [x] Voice Assistant (Phase 1) ✅
 - [ ] Accessibility Panel (Phase 2)
-- [ ] Job Matching (Phase 3)
+- [ ] **REAL AI/ML Job Matching (Phase 3)** ⚠️ **CRITICAL - Must be real ML, not fake!**
 - [ ] Integration Dashboard (Phase 4)
+
+### AI/ML Components Status
+- [x] Voice Recognition API (Web Speech) ✅ **REAL & WORKING**
+- [x] Translation API (MyMemory) ✅ **REAL & WORKING**
+- [x] Text-to-Speech API (Web Speech) ✅ **REAL & WORKING**
+- [ ] Job Matching Algorithm 📦 **MOCK for MVP (intentional)**
+  - Current: Simple keyword matching with mock scores
+  - Demo Ready: YES - Shows complete workflow
+  - Future: Will replace with real ML backend (TensorFlow/PyTorch)
+  - Frontend: Ready for backend integration (no rework needed)
 
 ### User Experience
 - [x] Responsive design
@@ -337,7 +382,52 @@ If time is limited, focus on:
 
 ---
 
-## 💡 **PRO TIPS**
+## � **FUTURE PHASES (Post-Hackathon/Production)**
+
+### **Phase 5: Backend Development** (Future)
+When ready to move from prototype to production:
+
+#### 1. **Real ML Model for Job Matching**
+- [ ] Build Python backend (Flask/FastAPI)
+- [ ] Train custom ML model:
+  - TensorFlow/PyTorch for semantic matching
+  - BERT/RoBERTa for job-skill similarity
+  - Fine-tune on job description datasets
+- [ ] Deploy model as API endpoint
+- [ ] Replace frontend mock scores with real ML predictions
+
+#### 2. **Real-Time Job Data Integration**
+- [ ] Integrate with job APIs:
+  - LinkedIn Jobs API
+  - Indeed API
+  - Glassdoor API
+  - Naukri.com (India)
+- [ ] Database setup (PostgreSQL/MongoDB):
+  - User profiles
+  - Job listings
+  - Search history
+  - Analytics data
+- [ ] Caching layer (Redis) for performance
+
+#### 3. **User Authentication & Profiles**
+- [ ] Auth system (Firebase/Auth0)
+- [ ] User dashboard
+- [ ] Save preferences and searches
+- [ ] Application tracking
+
+#### 4. **Advanced Features**
+- [ ] AI resume builder
+- [ ] Interview preparation with voice AI
+- [ ] Career path recommendations
+- [ ] Salary insights
+- [ ] Company reviews with accessibility ratings
+
+**Timeline:** 2-3 months after hackathon  
+**Team Size:** 2-3 developers + 1 ML engineer
+
+---
+
+## �💡 **PRO TIPS**
 
 ### For Hackathon Success:
 1. **Focus on UX** - Make it feel polished
