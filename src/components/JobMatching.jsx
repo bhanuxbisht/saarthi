@@ -44,7 +44,17 @@ const JobMatching = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     openProfileForm: () => {
       setShowProfileForm(true);
-    }
+    },
+    runAIMatch: () => handleAIMatch(),
+    applyFilter: (filter) => {
+      if (!filter) return;
+
+      setSelectedFilter(filter);
+
+      if (filter === 'all') {
+        setSearchQuery('');
+      }
+    },
   }));
 
   // Handle AI Job Matching

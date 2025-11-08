@@ -60,7 +60,7 @@ const Features = () => {
     {
       icon: <Leaf className="w-8 h-8" />,
       title: 'Voice Control for Blind Users',
-      description: 'Carbon-neutral operations with energy-efficient algorithms supporting sustainable development.',
+      description: 'Implimented a Voice and Gesture Controller for easy navigation and operation for blind Users.',
       gradient: 'from-lime-500 to-green-500',
     },
   ];
@@ -156,7 +156,7 @@ const Features = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Explore All Features
+            Voice Controller
           </motion.button>
         </motion.div>
       </div>
